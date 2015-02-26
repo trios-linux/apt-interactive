@@ -32,7 +32,7 @@
 cache-search() {
 		echo " ";read -p "Press [R] to search again, [Y] to install packages, or [N] key to exit. " -n 1 -r -s
 			if [[ $REPLY =~ ^[Yy]$ ]]; then
-					 echo " ";read -p "Enter package name(s) to install: " -e input && sudo apt-get install $input;echo " ";read -p "Run again [y/N]" -n 1 -r -s
+					 echo " ";read -p "Enter package name(s) to install: " -e input && sudo apt-get install $input;echo " ";read -p "Install another package? [y/N]" -n 1 -r -s
 						if [[ $REPLY =~ ^[Yy]$ ]]
 							then		
 								cache-search
@@ -42,7 +42,7 @@ cache-search() {
 						fi
 
 			elif [[ $REPLY =~ ^[Rr]$ ]]; then
-					 echo " ";read -p "Enter package names to search for: " -e input && apt-cache search $input;echo " ";read -p "Run again [y/N]"  -n 1 -r -s
+					 echo " ";read -p "Enter package names to search for: " -e input && apt-cache search $input;echo " ";read -p "Repeat search? [y/N]"  -n 1 -r -s
 						if [[ $REPLY =~ ^[Yy]$ ]]
 							then		
 								cache-search
@@ -67,7 +67,7 @@ if [ "$1" = "search" ] ;
 	then
 		apt-cache search $2;echo " ";read -p "Press <R> to search again, <Y> to install packages, or <N> key to exit. " -n 1 -r -s
 			if [[ $REPLY =~ ^[Yy]$ ]]; then
-					 echo " ";read -p "Enter package name(s) to install: " -e input && sudo apt-get install $input;echo " ";read -p "Run again [y/N] " -n 1 -r -s
+					 echo " ";read -p "Enter package name(s) to install: " -e input && sudo apt-get install $input;echo " ";read -p "Install another package? [y/N] " -n 1 -r -s
 						if [[ $REPLY =~ ^[Yy]$ ]]
 							then		
 								cache-search
@@ -76,7 +76,7 @@ if [ "$1" = "search" ] ;
 								echo " ";exit 0
 						fi
 			elif [[ $REPLY =~ ^[Rr]$ ]]; then
-					 echo " ";read -p "Enter package names to search for: " -e input && apt-cache search $input;echo " ";read -p "Run again [y/N]"  -n 1 -r -s
+					 echo " ";read -p "Enter package names to search for: " -e input && apt-cache search $input;echo " ";read -p "Repeat search? [y/N]"  -n 1 -r -s
 						if [[ $REPLY =~ ^[Yy]$ ]]
 							then		
 								cache-search
@@ -97,7 +97,7 @@ if [ "$1" = "search" ] ;
 ###################################
 
 cache-show() {
-		echo " ";read -p "Enter package name(s) to show info for: " -e input && apt-cache show $input;echo "------------------";echo " ";read -p "Do it again [y/N] " -n 1 -r -s
+		echo " ";read -p "Enter package name(s) to show info for: " -e input && apt-cache show $input;echo "------------------";echo " ";read -p "Repeat with different package? [y/N] " -n 1 -r -s
 			if [[ $REPLY =~ ^[Yy]$ ]]
 				then		
 					cache-show
@@ -114,7 +114,7 @@ cache-show() {
 
 if [ "$1" = "show" ] ;
 	then
-		apt-cache show ${*:2};echo "------------------";echo " ";read -p "Do it again [y/N] " -n 1 -r -s
+		apt-cache show ${*:2};echo "------------------";echo " ";read -p "Repeat with different package? [y/N] " -n 1 -r -s
 			if [[ $REPLY =~ ^[Yy]$ ]]
 				then		
 					cache-show
@@ -129,7 +129,7 @@ fi
 ####################################
 
 apt-install() {
-		echo " ";read -p "Enter package name(s) to install: " -e input && echo " " && apt-get install $input;echo "------------------";echo " ";read -p "Do it again [y/N] " -n 1 -r -s
+		echo " ";read -p "Enter package name(s) to install: " -e input && echo " " && apt-get install $input;echo "------------------";echo " ";read -p "Install another package?? [y/N] " -n 1 -r -s
 			if [[ $REPLY =~ ^[Yy]$ ]]
 				then		
 					apt-install
@@ -146,7 +146,7 @@ apt-install() {
 
 if [ "$1" = "install" ] ;
 	then
-		apt-get install ${*:2};echo " ";read -p "Do it again [y/N] " -n 1 -r -s
+		apt-get install ${*:2};echo " ";read -p "Install another package? [y/N] " -n 1 -r -s
 			if [[ $REPLY =~ ^[Yy]$ ]]
 				then		
 					apt-install
@@ -161,7 +161,7 @@ fi
 ###################################
 
 apt-remove() {
-		echo " ";read -p "Enter package name(s) to remove: " -e input && echo " " && apt-get remove $input;echo "------------------";echo " ";read -p "Do it again [y/N] " -n 1 -r -s
+		echo " ";read -p "Enter package name(s) to remove: " -e input && echo " " && apt-get remove $input;echo "------------------";echo " ";read -p "Remove another package? [y/N] " -n 1 -r -s
 			if [[ $REPLY =~ ^[Yy]$ ]]
 				then		
 					apt-remove
@@ -178,7 +178,7 @@ apt-remove() {
 
 if [ "$1" = "remove" ] ;
 	then
-		apt-get remove ${*:2};echo " ";read -p "Do it again [y/N] " -n 1 -r -s
+		apt-get remove ${*:2};echo " ";read -p "Remove another package? [y/N] " -n 1 -r -s
 			if [[ $REPLY =~ ^[Yy]$ ]]
 				then		
 					apt-remove
@@ -193,7 +193,7 @@ fi
 ##################################
 
 apt-purge() {
-		echo " ";read -p "Enter package name(s) to purge: " -e input && echo " " && apt-get purge $input;echo "------------------";echo " ";read -p "Do it again [y/N] " -n 1 -r -s
+		echo " ";read -p "Enter package name(s) to purge: " -e input && echo " " && apt-get purge $input;echo "------------------";echo " ";read -p "Purge another package? [y/N] " -n 1 -r -s
 			if [[ $REPLY =~ ^[Yy]$ ]]
 				then		
 					apt-purge
@@ -210,7 +210,7 @@ apt-purge() {
 
 if [ "$1" = "purge" ] ;
 	then
-		apt-get purge ${*:2};echo " ";read -p "Do it again [y/N] " -n 1 -r -s
+		apt-get purge ${*:2};echo " ";read -p "Purge another package? [y/N] " -n 1 -r -s
 			if [[ $REPLY =~ ^[Yy]$ ]]
 				then		
 					apt-purge
