@@ -16,4 +16,5 @@ looping in the same run, if wanted.
 ------------------------------------------------------------------------------
 
 apt-interactive is free software. Licenced under GPL v2 or later. :)
+
 2014/2015 Filip Danilovic <filip@openmailbox.org>
