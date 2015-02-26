@@ -1,0 +1,5 @@
+apt-interactive (0.1.0) debian; urgency=low
+
+  * Initial release
+
+ -- Filip Danilovic <filip@openmailbox.org>  Sat, 03 Jan 2015 23:59:00 +0100

@@ -1,0 +1,19 @@
+Source: apt-interactive
+Section: misc
+Priority: optional
+Maintainer: Filip Danilovic <filip@openmailbox.org>
+Build-Depends: debhelper (>= 5)
+Standards-Version: 3.7.2
+
+Package: apt-interactive
+Architecture: all
+Maintainer: Filip Danilovic <filip@openmailbox.org>
+Section: misc
+Priority: optional
+Depends: xfce4-whiskermenu-plugin, apt
+Description: Apt helper script for XFCE Whisker Menu.
+ Concieved as a helper script for XFCE Whisker Menu, allowing user to interact
+ with apt directly from Whisker using it's built-in search actions.
+ .
+ Can be used for searching, showing info, installing or removing packages, and
+ looping in the same run, if wanted.

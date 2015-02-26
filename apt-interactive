@@ -1,0 +1,225 @@
+#!/bin/bash
+#
+#*****************
+# Apt-interactive
+#*****************
+#
+# Concieved as a helper script for XFCE Whisker Menu, allowing user to interact
+# with apt directly from Whisker using it's built-in search actions.
+#
+# Can be used for searching, showing info, installing or removing packages, and 
+# looping in the same run, if wanted.
+#
+#
+# 2014 Filip Danilovic <filip@openmailbox.org>
+#
+# This is free software. Licenced under GPL v2 or later. :)
+#
+#######
+# TODO: 
+#######
+#
+#	1. Describe how to setup Whisker to use this script.
+#	2. Possibly add a menu, so it can be ( interactively ) used standalone.
+#
+#######################################################################################
+
+
+############################################################
+# Create "apt-cache search" function, so we can loop around:
+############################################################
+
+cache-search() {
+		echo " ";read -p "Press [R] to search again, [Y] to install packages, or [N] key to exit. " -n 1 -r -s
+			if [[ $REPLY =~ ^[Yy]$ ]]; then
+					 echo " ";read -p "Enter package name(s) to install: " -e input && sudo apt-get install $input;echo " ";read -p "Run again [y/N]" -n 1 -r -s
+						if [[ $REPLY =~ ^[Yy]$ ]]
+							then		
+								cache-search
+						elif [[ $REPLY =~ ^[Nn]$ ]] 
+							then				
+								echo " ";exit 0
+						fi
+
+			elif [[ $REPLY =~ ^[Rr]$ ]]; then
+					 echo " ";read -p "Enter package names to search for: " -e input && apt-cache search $input;echo " ";read -p "Run again [y/N]"  -n 1 -r -s
+						if [[ $REPLY =~ ^[Yy]$ ]]
+							then		
+								cache-search
+						elif [[ $REPLY =~ ^[Nn]$ ]] 
+							then				
+								echo " ";exit 0
+							fi
+			elif [[ $REPLY =~ ^[Nn]$ ]] 
+				then				
+					echo " ";exit 0
+				fi
+				cache-search
+				
+
+}
+
+##########################################################
+# Define initial search action when fired up from Whisker:
+##########################################################
+
+if [ "$1" = "search" ] ;
+	then
+		apt-cache search $2;echo " ";read -p "Press <R> to search again, <Y> to install packages, or <N> key to exit. " -n 1 -r -s
+			if [[ $REPLY =~ ^[Yy]$ ]]; then
+					 echo " ";read -p "Enter package name(s) to install: " -e input && sudo apt-get install $input;echo " ";read -p "Run again [y/N] " -n 1 -r -s
+						if [[ $REPLY =~ ^[Yy]$ ]]
+							then		
+								cache-search
+						elif [[ $REPLY =~ ^[Nn]$ ]] 
+							then				
+								echo " ";exit 0
+						fi
+			elif [[ $REPLY =~ ^[Rr]$ ]]; then
+					 echo " ";read -p "Enter package names to search for: " -e input && apt-cache search $input;echo " ";read -p "Run again [y/N]"  -n 1 -r -s
+						if [[ $REPLY =~ ^[Yy]$ ]]
+							then		
+								cache-search
+						elif [[ $REPLY =~ ^[Nn]$ ]] 
+							then				
+								echo " ";exit 0
+							fi
+			elif [[ $REPLY =~ ^[Nn]$ ]] 
+				then				
+					echo " ";exit 0
+				fi
+				cache-search
+				
+			fi
+
+###################################
+# Create "apt-cache show" function:
+###################################
+
+cache-show() {
+		echo " ";read -p "Enter package name(s) to show info for: " -e input && apt-cache show $input;echo "------------------";echo " ";read -p "Do it again [y/N] " -n 1 -r -s
+			if [[ $REPLY =~ ^[Yy]$ ]]
+				then		
+					cache-show
+
+			elif [[ $REPLY =~ ^[Nn]$ ]] 
+				then				
+				echo " ";exit 0
+			fi
+}
+
+######################
+# Initial show action:
+######################
+
+if [ "$1" = "show" ] ;
+	then
+		apt-cache show ${*:2};echo "------------------";echo " ";read -p "Do it again [y/N] " -n 1 -r -s
+			if [[ $REPLY =~ ^[Yy]$ ]]
+				then		
+					cache-show
+			elif [[ $REPLY =~ ^[Nn]$ ]] 
+				then				
+				echo " ";exit 0
+			fi
+fi
+
+####################################
+# Create "apt-get install" function:
+####################################
+
+apt-install() {
+		echo " ";read -p "Enter package name(s) to install: " -e input && echo " " && apt-get install $input;echo "------------------";echo " ";read -p "Do it again [y/N] " -n 1 -r -s
+			if [[ $REPLY =~ ^[Yy]$ ]]
+				then		
+					apt-install
+
+			elif [[ $REPLY =~ ^[Nn]$ ]] 
+				then				
+				echo " ";exit 0
+			fi
+}
+
+#########################
+# Initial install action:
+#########################
+
+if [ "$1" = "install" ] ;
+	then
+		apt-get install ${*:2};echo " ";read -p "Do it again [y/N] " -n 1 -r -s
+			if [[ $REPLY =~ ^[Yy]$ ]]
+				then		
+					apt-install
+			elif [[ $REPLY =~ ^[Nn]$ ]] 
+				then				
+				echo " ";exit 0
+			fi
+fi
+
+###################################
+# Create "apt-get remove" function:
+###################################
+
+apt-remove() {
+		echo " ";read -p "Enter package name(s) to remove: " -e input && echo " " && apt-get remove $input;echo "------------------";echo " ";read -p "Do it again [y/N] " -n 1 -r -s
+			if [[ $REPLY =~ ^[Yy]$ ]]
+				then		
+					apt-remove
+
+			elif [[ $REPLY =~ ^[Nn]$ ]] 
+				then				
+				echo " ";exit 0
+			fi
+}
+
+########################
+# Initial remove action:
+########################
+
+if [ "$1" = "remove" ] ;
+	then
+		apt-get remove ${*:2};echo " ";read -p "Do it again [y/N] " -n 1 -r -s
+			if [[ $REPLY =~ ^[Yy]$ ]]
+				then		
+					apt-remove
+			elif [[ $REPLY =~ ^[Nn]$ ]] 
+				then				
+				echo " ";exit 0
+			fi
+fi
+
+##################################
+# Create "apt-get purge" function:
+##################################
+
+apt-purge() {
+		echo " ";read -p "Enter package name(s) to purge: " -e input && echo " " && apt-get purge $input;echo "------------------";echo " ";read -p "Do it again [y/N] " -n 1 -r -s
+			if [[ $REPLY =~ ^[Yy]$ ]]
+				then		
+					apt-purge
+
+			elif [[ $REPLY =~ ^[Nn]$ ]] 
+				then				
+				echo " ";exit 0
+			fi
+}
+
+#######################
+# Initial purge action:
+#######################
+
+if [ "$1" = "purge" ] ;
+	then
+		apt-get purge ${*:2};echo " ";read -p "Do it again [y/N] " -n 1 -r -s
+			if [[ $REPLY =~ ^[Yy]$ ]]
+				then		
+					apt-purge
+			elif [[ $REPLY =~ ^[Nn]$ ]] 
+				then				
+				echo " ";exit 0
+			fi
+fi
+
+###########
+# The End #
+###########
